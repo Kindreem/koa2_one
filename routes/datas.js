@@ -52,4 +52,14 @@ router.post('/addData',async function(ctx,next){
   }
 });
 
+// 获取
+router.get('/getData',async function(ctx,next){
+  try {
+    const arr = await data.find()
+    ctx.body = arr
+  } catch (error) {
+    ctx.body = error
+  }
+});
+
 module.exports = router
