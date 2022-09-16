@@ -14,11 +14,14 @@ const dbs = require('./dbs/config') // 引用配置文件
 const cors = require('koa2-cors')
 app.use(cors(
   {
-    origin:"http://localhost:8089", // 允许来自指定域名请求
+    origin: function(ctx) {
+      return ctx.request.header.origin
+    }, // 允许来自指定域名请求
     maxAge: 5, // 本次预检请求的有效期，单位为秒。
-    methods:['GET','POST'],  // 所允许的HTTP请求方法
-    alloweHeaders:['Conten-Type'], // 服务器支持的所有头信息字段
-    credentials: true // 是否允许发送Cookie
+    credentials: true, //是否允许发送Cookie
+    allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], //设置所允许的HTTP请求方法
+    allowHeaders: ['Content-Type', 'Authorization', 'Accept'], //设置服务器支持的所有头信息字段
+    exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'] //设置获取其他自定义字段
   }
 ))
 
